@@ -9,6 +9,7 @@ import { FormLabel } from "@mui/material";
 import RadioGroup from "@mui/material/RadioGroup";
 import Radio from "@mui/material/Radio";
 import FormControlLabel from "@mui/material/FormControlLabel";
+import zIndex from "@mui/material/styles/zIndex";
 
 export default function Home() {
   const [fullName, setFullName] = useState("");
@@ -343,10 +344,33 @@ export default function Home() {
                       {isLoading && <span className="loader"></span>}أطلبي الآن
                     </button>
                   </div>
+                  <div className="w-full block md:hidden">
+                    {fullName === "" ||
+                    number === null ||
+                    address === "" ||
+                    province === "" ? (
+                      <a
+                        href="#form"
+                        className="bg-green-500 text-white fixed bottom-3 left-3 right-3 text-xl rounded-lg  p-3 text-center  font-bold hover:bg-green-400"
+                      >
+                        أطلبي الآن
+                      </a>
+                    ) : (
+                      <button
+                        onClick={handleAddLead}
+                        disabled={isLoading}
+                        type="submit"
+                        className="bg-green-500 z-20 text-white fixed bottom-3 left-3 right-3 text-xl rounded-lg  p-3 text-center  font-bold hover:bg-green-400"
+                      >
+                        {isLoading && <span className="loader"></span>}أطلبي
+                        الآن
+                      </button>
+                    )}
+                  </div>
                 </form>
               </div>
             </div>
-            <div className="w-full block md:hidden">
+            <div className="w-full block md:hidden " style={{ zIndex: -1 }}>
               {/* <iframe
                 // width="560"
                 height="315"
@@ -387,17 +411,10 @@ export default function Home() {
                   width={640}
                   height={995}
                   alt=""
+                  className=""
                   src="/testimonials.png"
                 />
               </div>
-            </div>
-            <div className="w-full block md:hidden">
-              <a
-                href="#form"
-                className="bg-green-500 text-white fixed bottom-3 left-3 right-3 text-xl rounded-lg  p-3 text-center  font-bold hover:bg-green-400"
-              >
-                أطلبي الآن
-              </a>
             </div>
           </div>
 
