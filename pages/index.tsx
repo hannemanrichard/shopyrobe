@@ -5,19 +5,24 @@ import { useState } from "react";
 import { addDoc, collection, serverTimestamp } from "@firebase/firestore";
 import { db } from "../firebase-config";
 import { useRouter } from "next/router";
+import { FormLabel } from "@mui/material";
+import RadioGroup from "@mui/material/RadioGroup";
+import Radio from "@mui/material/Radio";
+import FormControlLabel from "@mui/material/FormControlLabel";
 
 export default function Home() {
   const [fullName, setFullName] = useState("");
   const [address, setAddress] = useState("");
   const [offer, setOffer] = useState(1);
   const [province, setProvince] = useState("");
-  const [number, setNumber] = useState("");
+  const [number, setNumber] = useState<any>(null);
   const [nameErr, setNameErr] = useState(false);
   const [numberErr, setNumberErr] = useState(false);
   const [provinceErr, setProvinceErr] = useState(false);
   const [formErr, setFormErr] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [previewImage, setPreviewImage] = useState("1.webp");
+  const [size, setSize] = useState(1);
   const router = useRouter();
 
   const handleAddLead = async (e: any) => {
@@ -34,6 +39,7 @@ export default function Home() {
           province,
           number,
           timestamp: serverTimestamp(),
+          size,
           source: "traffic",
         });
 
@@ -83,7 +89,7 @@ export default function Home() {
         <link rel="icon" href="/favicon.png" />
       </Head>
       <div className="bg-auto bg-no-repeat bg-center">
-        <header className="bg-white border-b fixed top-0 h-20 w-full">
+        <header className="bg-white border-b fixed top-0 h-20 w-full z-20">
           <div className="w-full flex justify-between px-3 py-3">
             <div className="py-3">
               <img src="logo.png" className="h-8" alt="" />
@@ -93,7 +99,7 @@ export default function Home() {
                 href="#form"
                 className=" bg-green-500 text-white px-6 py-3 rounded-lg font-bold"
               >
-                أطلب الآن
+                أطلبي الآن
               </a>
             </div>
           </div>
@@ -101,7 +107,7 @@ export default function Home() {
         <main className="w-full  mt-20 px-6">
           <div className="w-full pt-4 pb-8 text-center  z-10 mt-4">
             <h1 className="text-5xl mb-2">
-              احسن هدية ممكن ان تقدميها لطفلك الرضيع في هادا الجو البارد
+              احسن هدية ممكن ان تقدميها لطفلك في هادا الجو البارد
             </h1>
             <h6 className="text-2xl">
               بطانية خاصة للأطفال دفئ و أناقة، المنتج الأكثر طلبا في الأسواق{" "}
@@ -157,6 +163,30 @@ export default function Home() {
                 </p>
               </div>
             </div>
+            <div className="w-full block md:hidden">
+              <div className="my-4">
+                <div>
+                  <img src={previewImage} alt="" className="" />
+                </div>
+                <div className="grid gap-2 grid-cols-5 mt-2">
+                  <button onClick={() => setPreviewImage("1.webp")}>
+                    <Image src="/1.webp" alt="" width={128} height={128} />
+                  </button>
+                  <button onClick={() => setPreviewImage("2.webp")}>
+                    <Image src="/2.webp" width={128} height={128} />
+                  </button>
+                  <button onClick={() => setPreviewImage("3.webp")}>
+                    <Image src="/3.webp" width={128} height={128} />
+                  </button>
+                  <button onClick={() => setPreviewImage("4.webp")}>
+                    <Image src="/4.webp" width={128} height={128} />
+                  </button>
+                  <button onClick={() => setPreviewImage("5.webp")}>
+                    <Image src="/5.webp" width={128} height={128} />
+                  </button>
+                </div>
+              </div>
+            </div>
             <div>
               <div className="flex justify-between hidden">
                 <Image
@@ -173,7 +203,7 @@ export default function Home() {
                 id="form"
               >
                 <h1 className="text-3xl  font-bold text-center">
-                  <span className="text-green-500">(30% تخفيض)</span>
+                  <span className="text-green-500">(25% تخفيض)</span>
                   <br /> أطلبي الآن واستفيدي من عرض بداية السنة{" "}
                 </h1>
                 <h3 className="text-lg  text-center">
@@ -202,7 +232,7 @@ export default function Home() {
                       <span className="label-text ">رقم الهاتف</span>
                     </label>
                     <input
-                      type="text"
+                      type="number"
                       className="p-3 mt-2 bg-white rounded-md w-full  text-right"
                       placeholder="رقم الهاتف"
                       value={number}
@@ -237,29 +267,57 @@ export default function Home() {
                   </div>
                   <div>
                     <label className="label w-full text-right block mt-3">
-                      <span className="label-text ">العنوان</span>
+                      <span className="label-text ">البلدية</span>
                     </label>
                     <input
                       type="text"
                       className="p-3 mt-2 bg-white rounded-md w-full text-right"
-                      placeholder="العنوان"
+                      placeholder="البلدية"
                       value={address}
                       onChange={(e) => setAddress(e.target.value)}
                     />
                   </div>
+                  <div>
+                    <label className="label w-full text-right block mt-3">
+                      <span className="label-text ">المقاس</span>
+                    </label>
 
+                    <div className="text-right">
+                      <RadioGroup
+                        aria-labelledby="size"
+                        defaultValue="female"
+                        className="text-right"
+                        value={size}
+                        onChange={(e) => setSize(+e.target.value)}
+                        name="size"
+                      >
+                        <FormControlLabel
+                          value={1}
+                          control={<Radio color="success" />}
+                          labelPlacement="start"
+                          label="من شهر إلى 6 شهور"
+                        />
+                        <FormControlLabel
+                          value={2}
+                          control={<Radio color="success" />}
+                          labelPlacement="start"
+                          label="من 6 شهور إلى 12 شهر "
+                        />
+                      </RadioGroup>
+                    </div>
+                  </div>
                   <div>
                     <div>
                       <div className="">
                         <p className=" mr-3 my-6 text-lg text-center">
-                          30% تخفيض
+                          25% تخفيض
                         </p>
                         <p className="sm:flex block text-center justify-center">
                           <span className="text-5xl text-red-500 font-bold  block sm:inline">
-                            3100 DA
+                            3900 DA
                           </span>
                           <span className=" text-lg line-through block sm:inline">
-                            4450 DA
+                            5200 DA
                           </span>
                         </p>
                       </div>
@@ -298,28 +356,7 @@ export default function Home() {
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                 allowFullScreen
               ></iframe> */}
-              <div className="my-4">
-                <div>
-                  <img src={previewImage} alt="" className="" />
-                </div>
-                <div className="grid gap-2 grid-cols-5 mt-2">
-                  <button onClick={() => setPreviewImage("1.webp")}>
-                    <Image src="/1.webp" alt="" width={128} height={128} />
-                  </button>
-                  <button onClick={() => setPreviewImage("2.webp")}>
-                    <Image src="/2.webp" width={128} height={128} />
-                  </button>
-                  <button onClick={() => setPreviewImage("3.webp")}>
-                    <Image src="/3.webp" width={128} height={128} />
-                  </button>
-                  <button onClick={() => setPreviewImage("4.webp")}>
-                    <Image src="/4.webp" width={128} height={128} />
-                  </button>
-                  <button onClick={() => setPreviewImage("5.webp")}>
-                    <Image src="/5.webp" width={128} height={128} />
-                  </button>
-                </div>
-              </div>
+
               <div className=" text-right mt-4">
                 <h1 className="text-xl mb-2">:كيفية الطلب </h1>
                 <div>
@@ -344,6 +381,22 @@ export default function Home() {
                   ليؤكد معك الطلب ، وسنرسل لك المنتج والدفع عند الاستلام
                 </p>
               </div>
+              <div className="my-4">
+                <Image
+                  width={640}
+                  height={995}
+                  alt=""
+                  src="/testimonials.png"
+                />
+              </div>
+            </div>
+            <div className="w-full block md:hidden">
+              <a
+                href="#form"
+                className="bg-green-500 text-white fixed bottom-3 left-3 right-3 text-xl rounded-lg  p-3 text-center  font-bold hover:bg-green-400"
+              >
+                أطلبي الآن
+              </a>
             </div>
           </div>
 

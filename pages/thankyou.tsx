@@ -27,7 +27,7 @@ export default function ThankYou() {
             <div className="mt-3">
               <Link href="/">
                 <a className=" bg-green-500 text-white px-6 py-3 rounded-lg font-bold">
-                  أطلب الآن
+                  أطلبي الآن
                 </a>
               </Link>
             </div>
