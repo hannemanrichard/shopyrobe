@@ -12,7 +12,7 @@ export default function App({ Component, pageProps }: AppProps) {
     import("react-facebook-pixel")
       .then((x) => x.default)
       .then((ReactPixel) => {
-        ReactPixel.init("564742098854202"); // facebookPixelId
+        ReactPixel.init("534294198484263"); // facebookPixelId
         ReactPixel.pageView();
 
         router.events.on("routeChangeComplete", () => {
@@ -24,7 +24,7 @@ export default function App({ Component, pageProps }: AppProps) {
     <>
       <Script
         strategy="afterInteractive"
-        src="https://www.googletagmanager.com/gtag/js?id=G-FFZZ2PB61B"
+        src="https://www.googletagmanager.com/gtag/js?id=G-KH6T30KERL"
       />
       <Script id="google-analytics" strategy="afterInteractive">
         {`
@@ -32,7 +32,7 @@ export default function App({ Component, pageProps }: AppProps) {
     function gtag(){dataLayer.push(arguments);}
     gtag('js', new Date());
   
-    gtag('config', 'G-FFZZ2PB61B');
+    gtag('config', 'G-KH6T30KERL');
    `}
       </Script>{" "}
       <Component {...pageProps} />

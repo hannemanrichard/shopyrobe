@@ -14,7 +14,7 @@ export default function ThankYou() {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <meta
           name="facebook-domain-verification"
-          content="uzqbb3dnl1kf0etxisup8shkuj0tdo"
+          content="ynykw1m2veggq9pspm51wz52v86v1m"
         />
         <link rel="icon" href="/favicon.png" />
       </Head>

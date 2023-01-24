@@ -62,7 +62,7 @@ export default function Home() {
         setNameErr(false);
       }
     } else if (field === "number") {
-      if (number === "") {
+      if (number === null) {
         setNumberErr(true);
       } else {
         setNumberErr(false);
@@ -84,7 +84,7 @@ export default function Home() {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <meta
           name="facebook-domain-verification"
-          content="uzqbb3dnl1kf0etxisup8shkuj0tdo"
+          content="ynykw1m2veggq9pspm51wz52v86v1m"
         />
         <link rel="icon" href="/favicon.png" />
       </Head>
@@ -110,7 +110,8 @@ export default function Home() {
               احسن هدية ممكن ان تقدميها لطفلك في هادا الجو البارد
             </h1>
             <h6 className="text-2xl">
-              بطانية خاصة للأطفال دفئ و أناقة، المنتج الأكثر طلبا في الأسواق{" "}
+              بطانية أطفال بمقاسات مختلفة دفئ و أناقة، المنتج الأكثر طلبا في
+              الأسواق{" "}
             </h6>
           </div>
 
