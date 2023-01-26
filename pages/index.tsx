@@ -305,6 +305,24 @@ export default function Home() {
                           labelPlacement="start"
                           label="من 6 شهور إلى 12 شهر "
                         />
+                        <FormControlLabel
+                          value={3}
+                          control={<Radio color="success" />}
+                          labelPlacement="start"
+                          label="سنتين"
+                        />
+                        <FormControlLabel
+                          value={4}
+                          control={<Radio color="success" />}
+                          labelPlacement="start"
+                          label="ثلاث سنوات"
+                        />
+                        <FormControlLabel
+                          value={5}
+                          control={<Radio color="success" />}
+                          labelPlacement="start"
+                          label="أربع سنوات"
+                        />
                       </RadioGroup>
                     </div>
                   </div>
