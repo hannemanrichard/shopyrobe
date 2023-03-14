@@ -243,7 +243,7 @@ export default function Home() {
                 id="form"
               >
                 <h1 className="text-3xl  font-bold text-center">
-                  <span className="text-green-500">(30% تخفيض)</span>
+                  <span className="text-rose-500">(30% تخفيض)</span>
                   <br /> أطلبي الآن واستفيدي من عرض شهر رمضان{" "}
                 </h1>
                 <h3 className="text-lg  text-center">
@@ -333,25 +333,25 @@ export default function Home() {
                       >
                         <FormControlLabel
                           value={1}
-                          control={<Radio color="success" />}
+                          control={<Radio color="error" />}
                           labelPlacement="start"
                           label="اللون البيج حجم (38-40)"
                         />
                         <FormControlLabel
                           value={2}
-                          control={<Radio color="success" />}
+                          control={<Radio color="error" />}
                           labelPlacement="start"
                           label="اللون الاسود حجم (38-40)"
                         />
                         <FormControlLabel
                           value={3}
-                          control={<Radio color="success" />}
+                          control={<Radio color="error" />}
                           labelPlacement="start"
                           label="اللون البيج حجم (42-44)"
                         />
                         <FormControlLabel
                           value={4}
-                          control={<Radio color="success" />}
+                          control={<Radio color="error" />}
                           labelPlacement="start"
                           label="اللون الاسود حجم (42-44)"
                         />
@@ -389,7 +389,7 @@ export default function Home() {
                       onClick={handleAddLead}
                       disabled={isLoading}
                       type="submit"
-                      className="bg-rose-600 hover:bg-rose-500 duration-150 ease-in-out text-white button-bounce text-2xl rounded-lg w-full p-4 text-center  font-bold hover:bg-green-400"
+                      className="bg-rose-600 hover:bg-rose-500 duration-150 ease-in-out text-white button-bounce text-2xl rounded-lg w-full p-4 text-center  font-bold "
                     >
                       {isLoading && <span className="loader"></span>}أطلبي الآن
                     </button>
@@ -401,7 +401,7 @@ export default function Home() {
                     province === "" ? (
                       <a
                         href="#form"
-                        className="bg-green-500 text-white fixed bottom-3 left-3 right-3 text-xl rounded-lg  p-3 text-center  font-bold hover:bg-green-400"
+                        className="bg-rose-500 text-white fixed bottom-3 left-3 right-3 text-xl rounded-lg  p-3 text-center  font-bold hover:bg-rose-400"
                       >
                         أطلبي الآن
                       </a>
@@ -410,7 +410,7 @@ export default function Home() {
                         onClick={handleAddLead}
                         disabled={isLoading}
                         type="submit"
-                        className="bg-green-500 z-20 text-white fixed bottom-3 left-3 right-3 text-xl rounded-lg  p-3 text-center  font-bold hover:bg-green-400"
+                        className="bg-rose-500 z-20 text-white fixed bottom-3 left-3 right-3 text-xl rounded-lg  p-3 text-center  font-bold hover:bg-rose-400"
                       >
                         {isLoading && <span className="loader"></span>}أطلبي
                         الآن
@@ -456,15 +456,7 @@ export default function Home() {
                   ليؤكد معك الطلب ، وسنرسل لك المنتج والدفع عند الاستلام
                 </p>
               </div>
-              <div className="my-4">
-                <Image
-                  width={640}
-                  height={995}
-                  alt=""
-                  className=""
-                  src="/testimonials.png"
-                />
-              </div>
+              <div className="my-4"></div>
             </div>
           </div>
 
