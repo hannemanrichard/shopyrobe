@@ -449,7 +449,7 @@ export default function Home() {
                   </div>
                 </div>
               </div>
-              <div className=" text-right mt-8 mb-8">
+              <div className=" text-right mt-8 mb-20">
                 <h1 className="text-xl mb-2">:كيفية الإستلام </h1>
                 <p>
                   طريقة بسيط جدا بعد أن تطلب المنتج سيتصل بك أحد موظفي الشركة
