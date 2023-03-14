@@ -1,15 +1,14 @@
 import Head from "next/head";
 import bg from "../public/background.jpg";
 import Image from "next/image";
-import { useState } from "react";
-import { addDoc, collection, serverTimestamp } from "@firebase/firestore";
-import { db } from "../firebase-config";
+import { useState, useEffect } from "react";
 import { useRouter } from "next/router";
 import { FormLabel } from "@mui/material";
 import RadioGroup from "@mui/material/RadioGroup";
 import Radio from "@mui/material/Radio";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import zIndex from "@mui/material/styles/zIndex";
+import supabase from "../supabase-config";
 
 export default function Home() {
   const [fullName, setFullName] = useState("");
@@ -22,29 +21,82 @@ export default function Home() {
   const [provinceErr, setProvinceErr] = useState(false);
   const [formErr, setFormErr] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [agents, setAgents] = useState<any>([]);
+  const [agentsCount, setAgentsCount] = useState(0);
   const [previewImage, setPreviewImage] = useState("1.webp");
   const [size, setSize] = useState(1);
   const router = useRouter();
 
+  useEffect(() => {
+    const fetchAgents = async () => {
+      try {
+        const { data, error } = await supabase
+          .from("users")
+          .select("*")
+          .eq("role", "agent");
+
+        if (data) {
+          console.log("the data tracker: ", data);
+          setAgents(data);
+          setAgentsCount(data.length);
+        }
+
+        if (error) {
+          console.log("something went wrong ", error);
+        }
+      } catch (error) {
+        console.log("catched an error ", error);
+      }
+    };
+
+    fetchAgents();
+  }, []);
+
   const handleAddLead = async (e: any) => {
     e.preventDefault();
-    if (fullName !== "" && province !== "" && number !== "") {
+    if (fullName !== "" && province !== "" && address !== "" && number !== "") {
       try {
         setIsLoading(true);
-        const leadsRef = collection(db, "leads");
-        const offerValue = offer === 2 ? "oil + champoing" : "oil";
-        setFormErr(false);
-        await addDoc(leadsRef, {
-          fullName,
-          address,
-          province,
-          number,
-          timestamp: serverTimestamp(),
-          size,
-          source: "traffic",
-        });
+        let agentId;
+        if (agentsCount !== 0) {
+          agentId = agents[Math.floor(Math.random() * agentsCount)].id;
+        } else {
+          agentId = null;
+        }
+        let product;
+        switch (size) {
+          case 1:
+            product = "روب لون بيج حجم (38-40)";
+            break;
+          case 2:
+            product = "روب لون اسود حجم (38-40)";
+            break;
+          case 3:
+            product = "روب لون بيج حجم (42-44)";
+            break;
+          case 4:
+            product = "روب لون اسود حجم (42-44)";
+            break;
+          default:
+            product = "روب لون بيج حجم (38-40)";
+            break;
+        }
 
-        router.push("/thankyou");
+        const { error } = await supabase.from("leads").insert({
+          first_name: fullName,
+          last_name: "",
+          address: "",
+          phone: `${number}`,
+          wilaya: province,
+          commune: address,
+          product,
+          agent_id: agentId,
+        });
+        if (error) {
+          setFormErr(false);
+        } else {
+          router.push("/thankyou");
+        }
       } catch (error) {
         console.log(error);
       } finally {
@@ -98,7 +150,7 @@ export default function Home() {
             <div className=" mt-3">
               <a
                 href="#form"
-                className=" bg-green-500 text-white px-6 py-3 rounded-lg font-bold"
+                className=" bg-rose-600 hover:bg-rose-500 duration-150 ease-in-out text-white px-6 py-3 rounded-lg font-bold"
               >
                 أطلبي الآن
               </a>
@@ -107,12 +159,10 @@ export default function Home() {
         </header>
         <main className="w-full  mt-20 px-6">
           <div className="w-full pt-4 pb-8 text-center  z-10 mt-4">
-            <h1 className="text-5xl mb-2">
-              احسن هدية ممكن ان تقدميها لطفلك في هادا الجو البارد
-            </h1>
+            <h1 className="text-5xl mb-2">روب حجاب بتصميم رائع و جودة عالية</h1>
             <h6 className="text-2xl">
-              بطانية أطفال بمقاسات مختلفة دفئ و أناقة، المنتج الأكثر طلبا في
-              الأسواق{" "}
+              نوفر لكي سيدتي أحلى وأفخم موديلات العصر روب حجاب طرز متحوف و متقون
+              لكل المناسبات 🥰
             </h6>
           </div>
 
@@ -120,7 +170,7 @@ export default function Home() {
             <div className="w-full hidden md:block">
               <div className="my-4">
                 <div>
-                  <img src={previewImage} alt="" className="" />
+                  <img src={previewImage} alt="" className="w-full" />
                 </div>
                 <div className="grid gap-2 grid-cols-5 mt-2">
                   <button onClick={() => setPreviewImage("1.webp")}>
@@ -131,12 +181,6 @@ export default function Home() {
                   </button>
                   <button onClick={() => setPreviewImage("3.webp")}>
                     <Image src="/3.webp" width={128} height={128} />
-                  </button>
-                  <button onClick={() => setPreviewImage("4.webp")}>
-                    <Image src="/4.webp" width={128} height={128} />
-                  </button>
-                  <button onClick={() => setPreviewImage("5.webp")}>
-                    <Image src="/5.webp" width={128} height={128} />
                   </button>
                 </div>
               </div>
@@ -180,12 +224,6 @@ export default function Home() {
                   <button onClick={() => setPreviewImage("3.webp")}>
                     <Image src="/3.webp" width={128} height={128} />
                   </button>
-                  <button onClick={() => setPreviewImage("4.webp")}>
-                    <Image src="/4.webp" width={128} height={128} />
-                  </button>
-                  <button onClick={() => setPreviewImage("5.webp")}>
-                    <Image src="/5.webp" width={128} height={128} />
-                  </button>
                 </div>
               </div>
             </div>
@@ -206,7 +244,7 @@ export default function Home() {
               >
                 <h1 className="text-3xl  font-bold text-center">
                   <span className="text-green-500">(30% تخفيض)</span>
-                  <br /> أطلبي الآن واستفيدي من عرض بداية السنة{" "}
+                  <br /> أطلبي الآن واستفيدي من عرض شهر رمضان{" "}
                 </h1>
                 <h3 className="text-lg  text-center">
                   للطلب يرجى ملء هذا النموذج وسوف نتصل بك للتاكيد{" "}
@@ -297,31 +335,25 @@ export default function Home() {
                           value={1}
                           control={<Radio color="success" />}
                           labelPlacement="start"
-                          label="من شهر إلى 6 شهور"
+                          label="اللون البيج حجم (38-40)"
                         />
                         <FormControlLabel
                           value={2}
                           control={<Radio color="success" />}
                           labelPlacement="start"
-                          label="من 6 شهور إلى 12 شهر "
+                          label="اللون الاسود حجم (38-40)"
                         />
                         <FormControlLabel
                           value={3}
                           control={<Radio color="success" />}
                           labelPlacement="start"
-                          label="سنتين"
+                          label="اللون البيج حجم (42-44)"
                         />
                         <FormControlLabel
                           value={4}
                           control={<Radio color="success" />}
                           labelPlacement="start"
-                          label="ثلاث سنوات"
-                        />
-                        <FormControlLabel
-                          value={5}
-                          control={<Radio color="success" />}
-                          labelPlacement="start"
-                          label="أربع سنوات"
+                          label="اللون الاسود حجم (42-44)"
                         />
                       </RadioGroup>
                     </div>
@@ -334,10 +366,10 @@ export default function Home() {
                         </p>
                         <p className="sm:flex block text-center justify-center">
                           <span className="text-5xl text-red-500 font-bold  block sm:inline">
-                            3300 DA
+                            4500 DA
                           </span>
                           <span className=" text-lg line-through block sm:inline">
-                            4700 DA
+                            6500 DA
                           </span>
                         </p>
                       </div>
@@ -357,7 +389,7 @@ export default function Home() {
                       onClick={handleAddLead}
                       disabled={isLoading}
                       type="submit"
-                      className="bg-green-500 text-white button-bounce text-2xl rounded-lg w-full p-4 text-center  font-bold hover:bg-green-400"
+                      className="bg-rose-600 hover:bg-rose-500 duration-150 ease-in-out text-white button-bounce text-2xl rounded-lg w-full p-4 text-center  font-bold hover:bg-green-400"
                     >
                       {isLoading && <span className="loader"></span>}أطلبي الآن
                     </button>
