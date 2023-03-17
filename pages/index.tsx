@@ -179,9 +179,9 @@ export default function Home() {
                   <button onClick={() => setPreviewImage("2.webp")}>
                     <Image src="/2.webp" width={128} height={128} />
                   </button>
-                  <button onClick={() => setPreviewImage("3.webp")}>
+                  {/* <button onClick={() => setPreviewImage("3.webp")}>
                     <Image src="/3.webp" width={128} height={128} />
-                  </button>
+                  </button> */}
                 </div>
               </div>
               <div className=" text-right mt-4">
@@ -221,9 +221,9 @@ export default function Home() {
                   <button onClick={() => setPreviewImage("2.webp")}>
                     <Image src="/2.webp" width={128} height={128} />
                   </button>
-                  <button onClick={() => setPreviewImage("3.webp")}>
+                  {/* <button onClick={() => setPreviewImage("3.webp")}>
                     <Image src="/3.webp" width={128} height={128} />
-                  </button>
+                  </button> */}
                 </div>
               </div>
             </div>
